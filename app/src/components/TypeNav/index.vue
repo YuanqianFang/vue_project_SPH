@@ -103,6 +103,10 @@ export default {
         } else {
           query.category3id = category3id;
         }
+        //合并params 和 query 参数
+        if(this.$route.params){
+          location.params = this.$route.params
+        }
         location.query = query;
         this.$router.push(location);
       }

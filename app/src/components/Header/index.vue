@@ -60,17 +60,15 @@ export default {
         //第一种 字符串形式
         // this.$router.push('/search/'+ this.keyword + '?k=' + this.keyword.toUpperCase())
         //第二种 模板字符串
+
         // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
         //第三种 对象形式 （常用） 注意路由一定要命名
-        this.$router.push({
-          name:"search",
-          params:{
-            keyword:this.keyword
-          },
-          query:{
-            k:this.keyword.toUpperCase()
-          }
-        })
+        if(this.$route.query){
+          //合并params 和 query 参数
+          let location = {name:'search',params:{keyword:this.keyword || undefined}}
+          location.query = this.$route.query;
+          this.$router.push(location)
+        }
       }
     },
 };
