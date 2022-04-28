@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>Params:{{$route.params.keyword}}</h1>
-        <h1>Query:{{$route.query.k}}</h1>
+        <TypeNav></TypeNav>
     </div>
 </template>
 
@@ -11,6 +10,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
