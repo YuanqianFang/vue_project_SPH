@@ -11,6 +11,8 @@ import store from './store'
 import {reqCategoryList} from '@/api'
 reqCategoryList()
 
+import mock from '@/mock/mockServe'
+
 Vue.config.productionTip = false
 
 new Vue({

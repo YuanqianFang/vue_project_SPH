@@ -100,8 +100,18 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
+import Swiper from "swiper"
 export default {
   name: "",
+  mounted() {
+    this.$store.dispatch('getBannerList')
+  },
+  computed:{
+    ...mapState({
+      bannerList: state => state.home.bannerList
+    })
+  }
 };
 </script>
 
