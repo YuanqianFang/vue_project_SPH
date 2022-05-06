@@ -13,7 +13,7 @@ const actions = {
             commit("CATEGORYLIST",result.data)
         }
     },
-    async reqGetBannerList({commit}){
+    async getBannerList({commit}){
         let result = await reqGetBannerList();
         if(result.code == 200){
             commit("GETBANNERLIST",result.data)

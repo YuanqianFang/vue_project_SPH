@@ -5,7 +5,7 @@
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <div class="swiper-slide" v-for="(carousel) in bannerList" :key="carousel.id">
               <img src="./images/banner1.jpg" />
             </div>
             <!-- <div class="swiper-slide">
@@ -101,6 +101,7 @@
 
 <script>
 import {mapState} from "vuex"
+//引入Swiper
 import Swiper from "swiper"
 export default {
   name: "",
