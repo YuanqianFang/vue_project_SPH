@@ -15,7 +15,6 @@ import { reqCategoryList } from "@/api";
 reqCategoryList();
 
 import mock from "@/mock/mockServe";
-
 import "swiper/css/swiper.css";
 
 Vue.config.productionTip = false;
