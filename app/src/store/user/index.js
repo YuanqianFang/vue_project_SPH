@@ -1,8 +1,9 @@
 //登录注册的模块
-import { reqGetCode, reqUserLogin, reqUserRegister } from "@/api";
+import { reqGetCode, reqUserInfo, reqUserLogin, reqUserRegister } from "@/api";
 const state = {
   code: "",
   token: "",
+  userInfo:{}
 };
 const mutations = {
   GETCODE(state, code) {
@@ -11,6 +12,9 @@ const mutations = {
   USERLOGIN(state, token) {
     state.token = token;
   },
+  GETUSERINFO(state,userInfo){
+      state.userInfo = userInfo
+  }
 };
 const actions = {
   async getCode({ commit }, phone) {
@@ -22,7 +26,7 @@ const actions = {
       return Promise.reject(new Error("fail"));
     }
   },
-
+  //注册
   async userRegister({ commit }, user) {
     let result = await reqUserRegister(user);
     if (result.code == 200) {
@@ -31,7 +35,7 @@ const actions = {
       return Promise.reject(new Error("fail"));
     }
   },
-
+  //登录
   async userLogin({ commit }, data) {
     let result = await reqUserLogin(data);
     if (result.code == 200) {
@@ -41,6 +45,20 @@ const actions = {
       return Promise.reject(new Error("fail"));
     }
   },
+
+  //获取用户信息
+  async getUserInfo({commit}){
+    let result = await reqUserInfo()
+    if(result.code == 200){
+        commit("GETUSERINFO",result.data)
+        console.log(result)
+        return 'OK'
+    }else{
+        return Promise.reject(new Error('fail'))
+    }
+  }
+
+
 };
 const getters = {};
 

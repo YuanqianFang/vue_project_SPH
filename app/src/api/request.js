@@ -1,3 +1,4 @@
+import store from '@/store'
 import axios from 'axios'
 //引入进度条
 import nprogress from 'nprogress'
@@ -12,6 +13,10 @@ const requests = axios.create({
 
 //请求拦截器
 requests.interceptors.request.use((config)=>{
+    if(store.state.user.token){
+        config.headers.token = store.state.user.token
+    }
+
     nprogress.start()
     return config
 })

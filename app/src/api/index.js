@@ -21,3 +21,5 @@ export const reqUserRegister = (data) => requests({url:'/user/passport/register'
 
 //登录
 export const reqUserLogin = (data) => requests({url:'/user/passport/login',data,method:'post'})
+
+export const reqUserInfo = () => requests({url:'/user/passport/auth/getUserInfo',method:'get'})

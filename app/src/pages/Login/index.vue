@@ -91,8 +91,8 @@ export default {
         const { phone, password } = this;
         phone &&
           password &&
-          this.$store.dispatch("userLogin", { phone, password });
-        this.$router.push("/home");
+         await this.$store.dispatch("userLogin", { phone, password });
+         this.$router.push("/home");
       } catch (error) {
         alert(error.message);
       }
