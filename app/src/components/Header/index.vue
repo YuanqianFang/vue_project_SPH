@@ -10,9 +10,9 @@
             <router-link to="/login">登录</router-link>
             <router-link class="register" to="/register">免费注册</router-link>
           </p>
-           <p v-else>
-            <a>{{userName}}</a>
-            <a class="register">退出登录</a>
+          <p v-else>
+            <a>{{ userName }}</a>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -30,7 +30,7 @@
     <!--头部第二行 搜索区域-->
     <div class="bottom">
       <h1 class="logoArea">
-        <router-link class="logo" to='/home'>
+        <router-link class="logo" to="/home">
           <img src="./images/logo.png" alt="" />
         </router-link>
       </h1>
@@ -42,7 +42,11 @@
             class="input-error input-xxlarge"
             v-model="keyword"
           />
-          <button class="sui-btn btn-xlarge btn-danger" type="button" @click='goSearch'>
+          <button
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+            @click="goSearch"
+          >
             搜索
           </button>
         </form>
@@ -53,38 +57,48 @@
 
 <script>
 export default {
-    name:'HeaderIndex',
-    data(){
-      return{
-        keyword:""
-      }
-    },
-    methods: {
-      goSearch(){
-        //第一种 字符串形式
-        // this.$router.push('/search/'+ this.keyword + '?k=' + this.keyword.toUpperCase())
-        //第二种 模板字符串
+  name: "HeaderIndex",
+  data() {
+    return {
+      keyword: "",
+    };
+  },
+  methods: {
+    goSearch() {
+      //第一种 字符串形式
+      // this.$router.push('/search/'+ this.keyword + '?k=' + this.keyword.toUpperCase())
+      //第二种 模板字符串
 
-        // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
-        //第三种 对象形式 （常用） 注意路由一定要命名
-        if(this.$route.query){
-          //合并params 和 query 参数
-          let location = {name:'search',params:{keyword:this.keyword || undefined}}
-          location.query = this.$route.query;
-          this.$router.push(location)
-        }
+      // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
+      //第三种 对象形式 （常用） 注意路由一定要命名
+      if (this.$route.query) {
+        //合并params 和 query 参数
+        let location = {
+          name: "search",
+          params: { keyword: this.keyword || undefined },
+        };
+        location.query = this.$route.query;
+        this.$router.push(location);
       }
     },
-    computed:{
-      userName(){
-        return this.$store.state.user.userInfo.name 
+    async logout() {
+      try {
+        await this.$store.dispatch("userLogout");
+        this.$router.push('/home')
+      } catch (error) {
+        console.log(error.message)
       }
-    }
+    },
+  },
+  computed: {
+    userName() {
+      return this.$store.state.user.userInfo.name;
+    },
+  },
 };
 </script>
 
-
-<style lang='less' scoped>
+<style lang="less" scoped>
 .header {
   & > .top {
     background-color: #eaeaea;
