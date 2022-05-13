@@ -68,7 +68,6 @@ const actions = {
     let result = await reqUserInfo();
     if (result.code == 200) {
       commit("GETUSERINFO", result.data);
-      console.log(result);
       return "OK";
     } else {
       return Promise.reject(new Error("fail"));
