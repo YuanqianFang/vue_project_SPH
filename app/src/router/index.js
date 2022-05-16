@@ -84,17 +84,23 @@ router.beforeEach(async (to, from, next) => {
   let token = store.state.user.token;
   let name = store.state.user.userInfo.name;
   if (token) {
-    if (to.path == "/login") {
+    if (to.path == "/login" || to.path == "/register") {
       next("/");
-    }else{
+    } else {
+      if (name) {
+        next();
+      } else {
         try {
-            await store.dispatch("getUserInfo")
-            next();
+          await store.dispatch("getUserInfo");
+          next();
         } catch (error) {
-            
+          await store.dispatch("userLogout");
+          next("/login");
         }
+      }
     }
   } else {
+    //未登录 暂时放行
     next();
   }
 });

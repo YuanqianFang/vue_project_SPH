@@ -11,10 +11,14 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryname">
+              {{ searchParams.categoryname
+              }}<i @click="removeCategoryName">x</i>
+            </li>
+
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword }}<i @click="removeKeyWord">x</i>
+            </li>
           </ul>
         </div>
 
@@ -134,7 +138,7 @@ export default {
         category1Id: "",
         category2Id: "",
         category3Id: "",
-        categoryName: "",
+        categoryname: "",
         keyword: "",
         order: "",
         pageNo: 1,
@@ -144,7 +148,6 @@ export default {
       },
     };
   },
-
   components: {
     SearchSelector,
   },
@@ -161,7 +164,30 @@ export default {
     getData() {
       this.$store.dispatch("getSearchList", this.searchParams);
     },
+
+    removeCategoryName() {
+      //把字段变为undefined，当前这个字段不会带给服务器
+      this.searchParams.categoryname = undefined;
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+      this.getData();
+
+      if (this.$route.params) {
+        this.$router.push({ name: "search", params: this.$route.params });
+      }
+    },
+
+    removeKeyWord() {
+      this.searchParams.keyword = undefined;
+      this.getData();
+      this.$bus.$emit("clear");
+      if (this.$route.query) {
+        this.$router.push({ name: "search", query: this.$route.query });
+      }
+    },
   },
+
   watch: {
     //监听路由的变化，如果变化，再次发起请求
     $route(newValue, oldValue) {
@@ -170,7 +196,6 @@ export default {
       this.searchParams.category1Id = "";
       this.searchParams.category2Id = "";
       this.searchParams.category3Id = "";
-      
     },
   },
 };

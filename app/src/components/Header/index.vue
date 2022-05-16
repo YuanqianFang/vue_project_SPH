@@ -84,9 +84,9 @@ export default {
     async logout() {
       try {
         await this.$store.dispatch("userLogout");
-        this.$router.push('/home')
+        this.$router.push("/home");
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     },
   },
@@ -94,6 +94,12 @@ export default {
     userName() {
       return this.$store.state.user.userInfo.name;
     },
+  },
+  mounted() {
+    //通过全局事件总线清除关键字
+    this.$bus.$on("clear", () => {
+      this.keyword = "";
+    });
   },
 };
 </script>
