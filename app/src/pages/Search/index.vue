@@ -11,42 +11,66 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
+            <!-- 种类面包屑 -->
             <li class="with-x" v-if="searchParams.categoryname">
               {{ searchParams.categoryname
               }}<i @click="removeCategoryName">x</i>
             </li>
+            <!-- 关键字面包屑 -->
 
             <li class="with-x" v-if="searchParams.keyword">
               {{ searchParams.keyword }}<i @click="removeKeyWord">x</i>
+            </li>
+            <!-- 品牌面包屑 -->
+
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(":")[1]
+              }}<i @click="removeTrademark">x</i>
+            </li>
+
+            <!-- 平台销售属性值展示 -->
+            <li
+              class="with-x"
+              v-for="(attrValue, index) in searchParams.props"
+              :key="index"
+            >
+              {{ attrValue.split(":")[1]
+              }}<i @click="removeattrValue(index)">x</i>
             </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @trademarkInfo="tradeMarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: isOne }">
+                  <a
+                    >综合<span
+                      v-show="isOne"
+                      class="iconfont"
+                      :class="{
+                        'icon-arrow-up': isAsc,
+                        'icon-arrow-down': isDesc,
+                      }"
+                    ></span
+                  ></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }">
+                  <a
+                    >价格<span
+                      v-show="isTwo"
+                      class="iconfont icon-arrow-up"
+                      :class="{
+                        'icon-arrow-up': isAsc,
+                        'icon-arrow-down': isDesc,
+                      }"
+                    ></span
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -140,7 +164,7 @@ export default {
         category3Id: "",
         categoryname: "",
         keyword: "",
-        order: "",
+        order: "2:asc",
         pageNo: 1,
         pageSize: 10,
         props: [],
@@ -159,6 +183,20 @@ export default {
   },
   computed: {
     ...mapGetters(["goodsList", ""]),
+    //判断是否是综合排序
+    isOne() {
+      return this.searchParams.order.indexOf("1") != -1;
+    },
+    //判断是否是价格排序
+    isTwo() {
+      return this.searchParams.order.indexOf("2") != -1;
+    },
+    isAsc() {
+      return this.searchParams.order.indexOf("asc") != -1;
+    },
+    isDesc() {
+      return this.searchParams.order.indexOf("desc") != -1;
+    },
   },
   methods: {
     getData() {
@@ -185,6 +223,25 @@ export default {
       if (this.$route.query) {
         this.$router.push({ name: "search", query: this.$route.query });
       }
+    },
+    removeTrademark() {
+      this.searchParams.trademark = undefined;
+      this.getData();
+    },
+    removeattrValue(index) {
+      this.searchParams.props.splice(index, 1);
+      this.getData();
+    },
+    tradeMarkInfo(tradeMark) {
+      this.searchParams.trademark = `${tradeMark.tmId}:${tradeMark.tmName}`;
+      this.getData();
+    },
+    attrInfo(attr, attrValue) {
+      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
+      if (this.searchParams.props.indexOf(props) == -1) {
+        this.searchParams.props.push(props);
+      }
+      this.getData();
     },
   },
 
