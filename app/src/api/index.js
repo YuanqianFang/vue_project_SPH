@@ -26,3 +26,6 @@ export const reqUserInfo = () => requests({url:'/user/passport/auth/getUserInfo'
 
 //退出登录
 export const reqLogout = ()=>requests({url:'/user/passport/logout',method:'get'})
+
+//获取商品详情
+export const reqGoodsInfo = (skuid)=>requests({url:`/item/${skuid}`,method:"get"})

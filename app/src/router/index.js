@@ -3,11 +3,8 @@ import VueRouter from "vue-router";
 import Vue from "vue";
 import store from "@/store";
 Vue.use(VueRouter);
-import Home from "@/pages/Home";
-import Search from "@/pages/Search";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
 
+import routes from "./routes";
 let originPush = VueRouter.prototype.push;
 let originReplace = VueRouter.prototype.replace;
 
@@ -41,43 +38,11 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
 };
 
 let router = new VueRouter({
-  routes: [
-    {
-      path: "/home",
-      component: Home,
-      meta: {
-        //用于判断Footer组件是否显示
-        show: true,
-      },
-    },
-    {
-      path: "/search/:keyword?",
-      component: Search,
-      meta: {
-        show: true,
-      },
-      name: "search",
-    },
-    {
-      path: "/login",
-      component: Login,
-      meta: {
-        show: false,
-      },
-    },
-    {
-      path: "/register",
-      component: Register,
-      meta: {
-        show: false,
-      },
-    },
-    //重定向，在项目跑起来的时候，访问/,立马让他定向到首页
-    {
-      path: "*",
-      redirect: "/home",
-    },
-  ],
+  routes: routes,
+  scrollBehavior(to, from, savedPosition) {
+    //路由跳转时，设置滚动条为最上方
+    return { y: 0 };
+  },
 });
 
 router.beforeEach(async (to, from, next) => {

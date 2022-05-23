@@ -4,10 +4,13 @@ import App from "./App.vue";
 import TypeNav from "@/components/TypeNav";
 //引入轮播图组件
 import Carousel from "@/components/Carousel";
+//分页器组件
 import Pagination from "@/components/Pagination";
 Vue.component(TypeNav.name, TypeNav);
 Vue.component(Carousel.name, Carousel);
 Vue.component(Pagination.name, Pagination);
+
+
 //引入路由
 import router from "@/router";
 //引入仓库
