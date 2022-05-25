@@ -94,9 +94,14 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="skuNum" @change="changeSkuNum"/>
+                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                <a
+                  href="javascript:"
+                  class="mins"
+                  @click="skuNum > 1 ? skuNum-- : (skuNum = 1)"
+                  >-</a
+                >
               </div>
               <div class="add">
                 <a href="javascript:">加入购物车</a>
@@ -345,15 +350,30 @@ import { mapGetters } from "vuex";
 export default {
   name: "Detail",
   data() {
-    return {};
+    return {
+      //购买产品的个数
+      skuNum: 1,
+    };
   },
   methods: {
-    changeActive(saleAttrValue,arr) {
-      arr.forEach(item => {
-        item.isChecked = 0
+    changeActive(saleAttrValue, arr) {
+      arr.forEach((item) => {
+        item.isChecked = 0;
       });
-      saleAttrValue.isChecked = 1
+      saleAttrValue.isChecked = 1;
     },
+    changeSkuNum(event){
+      //用户输入的文本 * 1
+      let value = event.target.value * 1
+      //判断是否有非法字符或者是小于1的数值
+      if(isNaN(value) || value < 1){
+        this.skuNum = 1;
+      }else{
+        //用parseInt 规避小数
+        this.skuNum = parseInt(value)
+      }
+      
+    }
   },
   components: {
     ImageList,
