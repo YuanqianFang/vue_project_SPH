@@ -1,18 +1,20 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-import home from './home'
-import search from './search'
-import user from './user'
-import detail from './detail'
+import home from "./home";
+import search from "./search";
+import user from "./user";
+import detail from "./detail";
+import shopcart from "./shopCart";
 
 export default new Vuex.Store({
-    modules:{
-        home,
-        search,
-        user,
-        detail,
-    }
+  modules: {
+    home,
+    search,
+    user,
+    detail,
+    shopcart,
+  },
 });

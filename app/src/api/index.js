@@ -1,31 +1,46 @@
 import requests from "./request.js";
 
+export const reqCategoryList = () =>
+  requests({ url: "/product/getBaseCategoryList", method: "get" });
 
-export const reqCategoryList = () => requests({url:'/product/getBaseCategoryList',
-                                            method:'get'})
+import mockRequests from "./mockAjax";
 
+export const reqGetBannerList = () =>
+  mockRequests({ url: "/banner", method: "get" });
 
-import mockRequests from "./mockAjax"
+export const reqFloorList = () => mockRequests.get("/floor");
 
-export const reqGetBannerList = ()=> mockRequests({url:'/banner',method:'get'})
+export const reqGetSearchInfo = (params) =>
+  requests({ url: "/list", method: "post", data: params });
 
-
-export const reqFloorList = () => mockRequests.get('/floor')
-
-export const reqGetSearchInfo = (params) => requests({url:'/list',method:'post',data:params})
-
-export const reqGetCode = (phone) => requests({url:'/user/passport/sendCode/'+ phone ,method:'get'});
+export const reqGetCode = (phone) =>
+  requests({ url: "/user/passport/sendCode/" + phone, method: "get" });
 
 //注册
-export const reqUserRegister = (data) => requests({url:'/user/passport/register',data,method:'post'})
+export const reqUserRegister = (data) =>
+  requests({ url: "/user/passport/register", data, method: "post" });
 
 //登录
-export const reqUserLogin = (data) => requests({url:'/user/passport/login',data,method:'post'})
+export const reqUserLogin = (data) =>
+  requests({ url: "/user/passport/login", data, method: "post" });
 //用户信息
-export const reqUserInfo = () => requests({url:'/user/passport/auth/getUserInfo',method:'get'})
+export const reqUserInfo = () =>
+  requests({ url: "/user/passport/auth/getUserInfo", method: "get" });
 
 //退出登录
-export const reqLogout = ()=>requests({url:'/user/passport/logout',method:'get'})
+export const reqLogout = () =>
+  requests({ url: "/user/passport/logout", method: "get" });
 
 //获取商品详情
-export const reqGoodsInfo = (skuid)=>requests({url:`/item/${skuid}`,method:"get"})
+export const reqGoodsInfo = (skuid) =>
+  requests({ url: `/item/${skuid}`, method: "get" });
+
+//将产品添加到购物车中
+export const reqAddOrUpdateShopCart = (skuId, skuNum) =>
+  requests({
+    url: `/cart/addToCart/${skuId}/${skuNum}`,
+    method: "post",
+  });
+
+//获取购物车列表数据接口
+export const reqCartList = () => requests({url:"cart/cartList",method:"get"})
