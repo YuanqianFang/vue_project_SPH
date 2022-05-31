@@ -50,3 +50,9 @@ export const reqDeleteCartById = (skuId) => requests({url:`/cart/deleteCart/${sk
 
 //修改购物车商品选中状态
 export const reqUpdateCheckedById = (skuId, isChecked) => requests({url:`/cart/checkCart/${skuId}/${isChecked}`,method:"get"})
+
+//获取用户地址信息
+export const reqUserAddress = () => requests({url:"/user/userAddress/auth/findUserAddressList",method:"get"})
+
+//获取订单内商品
+export const reqOrderInfo = () => requests({url:"/order/auth/trade",method:"get"})

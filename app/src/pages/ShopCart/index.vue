@@ -64,11 +64,16 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllCheck" />
+        <input
+          class="chooseAll"
+          type="checkbox"
+          :checked="isAllCheck && cartInfoList.length > 0"
+          @change="updateAllCartChecked"
+        />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteAllCheckedCart">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -79,7 +84,7 @@
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link to="/trade" class="sum-btn">结算</router-link>
         </div>
       </div>
     </div>
@@ -141,6 +146,24 @@ export default {
           skuId: cart.skuId,
           isChecked: event.target.checked ? "1" : "0",
         });
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+
+    async deleteAllCheckedCart() {
+      try {
+        await this.$store.dispatch("deleteAllCheckedCart");
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    async updateAllCartChecked(event) {
+      try {
+        let param = event.target.checked ? "1" : "0";
+        await this.$store.dispatch("updateAllCartChecked", param);
         this.getData();
       } catch (error) {
         alert(error.message);
