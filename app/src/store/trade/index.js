@@ -15,7 +15,6 @@ const actions = {
   //获取用户信息
   async getUserAddress({ commit }) {
     let result = await reqUserAddress();
-    console.log(result);
     if (result.code == 200) {
       commit("GETUSERADDRESS", result.data);
     }

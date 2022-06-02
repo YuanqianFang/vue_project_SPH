@@ -43,7 +43,6 @@ const actions = {
   },
   //登录
   async userLogin({ commit }, data) {
-    console.log(data)
     let result = await reqUserLogin(data);
     if (result.code == 200) {
       commit("USERLOGIN", result.data.token);

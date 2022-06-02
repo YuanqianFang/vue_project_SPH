@@ -10,7 +10,6 @@ Vue.component(TypeNav.name, TypeNav);
 Vue.component(Carousel.name, Carousel);
 Vue.component(Pagination.name, Pagination);
 
-
 //引入路由
 import router from "@/router";
 //引入仓库
@@ -22,12 +21,16 @@ reqCategoryList();
 import mock from "@/mock/mockServe";
 import "swiper/css/swiper.css";
 
+//引入所有请求函数
+import * as API from "@/api";
+
 Vue.config.productionTip = false;
 
 new Vue({
   render: (h) => h(App),
   beforeCreate() {
     Vue.prototype.$bus = this;
+    Vue.prototype.$API = API;
   },
   //注册路由
   router,
