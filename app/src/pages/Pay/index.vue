@@ -17,7 +17,7 @@
           >
           <span class="fr"
             ><em class="lead">应付金额：</em
-            ><em class="orange money">￥{{payInfo.totalFee}}</em></span
+            ><em class="orange money">￥{{ payInfo.totalFee }}</em></span
           >
         </div>
       </div>
@@ -77,7 +77,7 @@
 
         <div class="submit">
           <!-- <router-link class="btn" to="/paysuccess">立即支付</router-link> -->
-          <a class="btn">立即支付</a>
+          <a class="btn" @click="payNow">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -94,12 +94,15 @@
 </template>
 
 <script>
+import QRcode from "qrcode";
 export default {
   name: "Pay",
-  data(){
-    return{
-      payInfo:{}
-    }
+  data() {
+    return {
+      payInfo: {},
+      timer: null,
+      code: "",
+    };
   },
   computed: {
     orderId() {
@@ -109,8 +112,53 @@ export default {
   methods: {
     async getPayInfo() {
       let result = await this.$API.reqPayInfo(this.orderId);
-      if(result.code == 200){
-        this.payInfo = result.data
+      if (result.code == 200) {
+        this.payInfo = result.data;
+      }
+    },
+    async payNow() {
+      //生成微信支付二维码地址
+      let url = await QRcode.toDataURL(this.payInfo.codeUrl);
+      console.log(url);
+      this.$alert(`<img src=${url}/>`, "微信支付", {
+        dangerouslyUseHTMLString: true,
+        center: true,
+        showCancelButton: true,
+        cancelButtonText: "支付遇见问题",
+        confirmButtonText: "已支付成功",
+        showClose: false,
+        beforeClose:(type,instance,done)=>{
+          if(type=="cancel"){
+            alert("请联系管理员")
+            clearInterval(this.timer)
+            this.timer = null
+            done();
+          }else{
+            //判断是否支付成功
+            // if(this.code == 200){
+              clearInterval(this.timer)
+              this.timer = null
+              done()
+              this.$router.push("/paysuccess")
+            // }
+            
+          }
+        }
+      });
+      if (!this.timer) {
+        this.timer = setInterval(async () => {
+          let result = await this.$API.reqPayStatus(this.orderId);
+          // console.log(result);
+          if (result.code == 200) {
+            clearInterval(this.timer);
+            this.timer = null;
+            this.code = result.code;
+            //关闭弹出框
+            this.$msgbox.close();
+            //路由跳转
+            this.$router.push("/paysuccess")
+          }
+        }, 1000);
       }
     },
   },
