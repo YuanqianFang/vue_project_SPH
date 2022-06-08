@@ -68,7 +68,7 @@ import groupOrder from "./groupOrder"
     components:{
       myOrder,
       groupOrder
-    }
+    },
   }
 </script>
 

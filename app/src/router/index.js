@@ -5,6 +5,7 @@ import store from "@/store";
 Vue.use(VueRouter);
 
 import routes from "./routes";
+
 let originPush = VueRouter.prototype.push;
 let originReplace = VueRouter.prototype.replace;
 
@@ -66,7 +67,11 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     //未登录 暂时放行
-    next();
+    if(to.path.indexOf("/trade") != -1 || to.path.indexOf("/pay")!= -1 || to.path.indexOf("/center") != -1){
+      next("/login")
+    }else{
+      next();
+    }
   }
 });
 
