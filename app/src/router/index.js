@@ -67,9 +67,15 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     //未登录 暂时放行
-    if(to.path.indexOf("/trade") != -1 || to.path.indexOf("/pay")!= -1 || to.path.indexOf("/center") != -1){
-      next("/login")
-    }else{
+    let toPath = to.path
+    if (
+      toPath.indexOf("/trade") != -1 ||
+      toPath.indexOf("/pay") != -1 ||
+      toPath.indexOf("/center") != -1
+    ) {
+      //把未登录的时候想去的页面信息存在路由里
+      next("/login?redirect=" + toPath);
+    } else {
       next();
     }
   }
