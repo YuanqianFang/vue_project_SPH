@@ -1,5 +1,11 @@
 import Vue from "vue";
 import App from "./App.vue";
+//引入路由
+import router from "@/router";
+//引入仓库
+import store from "./store";
+//引入懒加载
+import VueLazyload from "vue-lazyload";
 //三级联动组件（全局组件）
 import TypeNav from "@/components/TypeNav";
 //引入轮播图组件
@@ -11,21 +17,22 @@ import { Button, MessageBox } from "element-ui";
 Vue.component(TypeNav.name, TypeNav);
 Vue.component(Carousel.name, Carousel);
 Vue.component(Pagination.name, Pagination);
-Vue.component(Button.name,Button);
+Vue.component(Button.name, Button);
 //element ui 注册组件的时候，还可以挂在原型上
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
-//引入路由
-import router from "@/router";
-//引入仓库
-import store from "./store";
+import defaultImg from "@/assets/1.jpg";
+Vue.use(VueLazyload, {
+  loading: defaultImg,
+});
+
+//引入表单校验插件
+import "@/plugins/validate";
 
 import { reqCategoryList } from "@/api";
 reqCategoryList();
-
 import mock from "@/mock/mockServe";
 import "swiper/css/swiper.css";
-
 //引入所有请求函数
 import * as API from "@/api";
 
