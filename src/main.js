@@ -23,6 +23,7 @@ Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 import defaultImg from "@/assets/1.jpg";
 Vue.use(VueLazyload, {
+  error: defaultImg,
   loading: defaultImg,
 });
 
